@@ -64,3 +64,6 @@ generarPaleta();
 
 // Al hacer clic, genera la cantidad seleccionada
 btnGenerar.addEventListener("click", generarPaleta);
+
+// Al cambiar el select, genera la cantidad seleccionada automaticamente
+selectorCantidad.addEventListener("change", generarPaleta);
