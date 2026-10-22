@@ -40,9 +40,9 @@ function generarPaleta() {
     // Limpiar las secciones anteriores
     contenedor.innerHTML = "";
 
-    // Crear las secciones según la opción seleccionada
+    // Crear los articulos según la opción seleccionada
     for (let i = 0; i < cantidadColores; i++) {
-        const seccion = document.createElement("section");
+        const articulo = document.createElement("article");
 
         let color;
 
@@ -52,10 +52,10 @@ function generarPaleta() {
             color = generarColorHEX();
         }
 
-        seccion.style.backgroundColor = color;
-        seccion.textContent = color;
+        articulo.style.backgroundColor = color;
+        articulo.textContent = color;
 
-        contenedor.appendChild(seccion);
+        contenedor.appendChild(articulo);
     }
 }
 
