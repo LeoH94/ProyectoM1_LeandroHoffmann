@@ -1,6 +1,15 @@
 const contenedor = document.getElementById("contenedorPaletas");
 const btnGenerar = document.getElementById("btnGenerar");
 const selectorCantidad = document.getElementById("cantidadColores");
+const selectorFormato = document.getElementById("formatoColores");
+
+function generarColorHSL(){
+    const h = Math.floor(Math.random() * 361);
+    const s = Math.floor(Math.random() * 101);
+    const l = Math.floor(Math.random() * 101);
+
+    return `hsl(${h}, ${s}%, ${l}%)`;
+}
 
 function generarPaleta() {
     const cantidadColores = Number(selectorCantidad.value);
