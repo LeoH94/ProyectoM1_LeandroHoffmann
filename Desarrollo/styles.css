@@ -6,3 +6,14 @@
     box-sizing: border-box;
 }
 
+#contenedorPaletas {
+    border: 0.125rem solid black;
+    padding: 1rem;
+    margin: 1rem;
+}
+
+#contenedorPaletas section {
+    border: 0.125rem solid black;
+    padding: 1rem;
+    margin: 1rem;
+}
