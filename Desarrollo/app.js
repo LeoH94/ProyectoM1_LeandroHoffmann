@@ -35,6 +35,7 @@ function generarColorHEX() {
 //Funcion para generar paleta de colores dependiendo el formato elegido
 function generarPaleta() {
     const cantidadColores = Number(selectorCantidad.value);
+    const formato = selectorFormato.value;
 
     // Limpiar las secciones anteriores
     contenedor.innerHTML = "";
@@ -42,6 +43,18 @@ function generarPaleta() {
     // Crear las secciones según la opción seleccionada
     for (let i = 0; i < cantidadColores; i++) {
         const seccion = document.createElement("section");
+
+        let color;
+
+        if (formato === "HSL"){
+            color = generarColorHSL();
+        } else {
+            color = generarColorHEX();
+        }
+
+        seccion.style.backgroundColor = color;
+        seccion.textContent = color;
+
         contenedor.appendChild(seccion);
     }
 }
