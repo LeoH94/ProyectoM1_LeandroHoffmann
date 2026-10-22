@@ -17,3 +17,9 @@
     padding: 1rem;
     margin: 1rem;
 }
+
+#contenedorPaletas div{
+    border: 0.125rem solid black;
+    padding: 1rem;
+    margin: 1rem;
+}

@@ -37,12 +37,14 @@ function generarPaleta() {
     const cantidadColores = Number(selectorCantidad.value);
     const formato = selectorFormato.value;
 
-    // Limpiar las secciones anteriores
+    // Limpiar los articulos anteriores
     contenedor.innerHTML = "";
 
     // Crear los articulos según la opción seleccionada
     for (let i = 0; i < cantidadColores; i++) {
         const articulo = document.createElement("article");
+        const divColor = document.createElement("div");
+        const codeColor = document.createElement("code");
 
         let color;
 
@@ -52,10 +54,12 @@ function generarPaleta() {
             color = generarColorHEX();
         }
 
-        articulo.style.backgroundColor = color;
-        articulo.textContent = color;
+        divColor.style.backgroundColor = color;
+        codeColor.textContent = color;
 
         contenedor.appendChild(articulo);
+        articulo.appendChild(divColor);
+        articulo.appendChild(codeColor);
     }
 }
 
