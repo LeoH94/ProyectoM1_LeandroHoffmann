@@ -7,21 +7,41 @@
 }
 
 #contenedorPaletas {
-    border: 0.125rem solid black;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
     padding: 1rem;
     margin: 1rem;
 }
 
 #contenedorPaletas article{
-    border: 0.125rem solid black;
+    min-width: 0;
     padding: 1rem;
-    margin: 1rem;
+    margin: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 0.75rem;
 }
 
 #contenedorPaletas div{
     border: 0.125rem solid black;
     padding: 1rem;
     margin: 1rem;
+}
+
+
+#contenedorPaletas article div {
+    min-height: 150px;
+    margin: 0 0 0.75rem;
+    border: 1px solid #777;
+    border-radius: 0.5rem;
+}
+
+#contenedorPaletas code {
+    display: block;
+    overflow-wrap: anywhere;
+    margin-bottom: 0.75rem;
+    color: #222;
 }
 
 /* Accesibilidad: foco visible al navegar con teclado */
