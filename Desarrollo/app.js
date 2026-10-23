@@ -59,6 +59,7 @@ function hslAHex(h, s, l) {
 //Funcion para generar paleta de colores dependiendo el formato elegido
 function generarPaleta() {
     const cantidadColores = Number(selectorCantidad.value);
+    contenedor.style.setProperty("--cantidad-colores", cantidadColores);
     const formato = selectorFormato.value;
 
     contenedor.innerHTML = "";
@@ -164,4 +165,7 @@ btnGenerar.addEventListener("click", generarPaleta);
 selectorCantidad.addEventListener("change", generarPaleta);
 
 // Al cambiar el select de formato, genera la cantidad seleccionada en ese formato automaticamente
-selectorFormato.addEventListener("change", generarPaleta);
+selectorFormato.addEventListener("change", () => {
+    coloresBloqueados.clear();
+    generarPaleta();
+});
