@@ -33,6 +33,28 @@ function generarColorHEX() {
     return color;
 }
 
+//Funcion para transformar formato HSL a HEX
+function hslAHex(h, s, l) {
+    s /= 100;
+    l /= 100;
+
+    const k = n => (n + h / 30) % 12;
+    const a = s * Math.min(l, 1 - l);
+
+    const f = n => {
+        const valor = l - a * Math.max(
+            -1,
+            Math.min(k(n) - 3, Math.min(9 - k(n), 1))
+        );
+
+        return Math.round(255 * valor)
+            .toString(16)
+            .padStart(2, "0");
+    };
+
+    return `#${f(0)}${f(8)}${f(4)}`.toUpperCase();
+}
+
 
 //Funcion para generar paleta de colores dependiendo el formato elegido
 function generarPaleta() {
@@ -83,10 +105,45 @@ function generarPaleta() {
             : "🔓 Bloquear";
         });
 
+         articulo.addEventListener("click", async (event) => {
+        // Evitar copiar cuando se pulsa el botón de bloqueo
+        if (event.target.closest("button")) {
+            return;
+        }
+
+        let hex = color;
+
+        // Si el color está en HSL, convertirlo a HEX
+        if (formato === "HSL") {
+            const valores = color.match(/[\d.]+/g).map(Number);
+
+            hex = hslAHex(
+                valores[0],
+                valores[1],
+                valores[2]
+            );
+        }
+
+        try {
+            await navigator.clipboard.writeText(hex);
+
+            // Mostrar confirmación temporal
+            codeColor.textContent = `${hex} ¡Copiado!`;
+
+            setTimeout(() => {
+                codeColor.textContent = color;
+            }, 1200);
+
+        } catch (error) {
+        console.error("No se pudo copiar el color:", error);
+        }
+        });
+
         articulo.appendChild(divColor);
         articulo.appendChild(codeColor);
         articulo.appendChild(btnBloquear);
         contenedor.appendChild(articulo);
+
     }
 }
 
