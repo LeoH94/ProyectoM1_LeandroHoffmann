@@ -90,53 +90,60 @@ function generarPaleta() {
         codeColor.textContent = color;
 
         btnBloquear.type = "button";
+
         btnBloquear.textContent = coloresBloqueados.has(i)
             ? "🔒 Bloqueado"
             : "🔓 Bloquear";
 
+        btnBloquear.title = coloresBloqueados.has(i)
+            ? "Color bloqueado"
+            : "Bloquear este color";
+
         btnBloquear.addEventListener("click", () => {
             if (coloresBloqueados.has(i)) {
                 coloresBloqueados.delete(i);
+                btnBloquear.textContent = "🔓 Bloquear";
+                btnBloquear.title = "Bloquear este color";
             } else {
                 coloresBloqueados.set(i, color);
+                btnBloquear.textContent = "🔒 Bloqueado";
+                btnBloquear.title = "Color bloqueado";
             }
-            btnBloquear.textContent = coloresBloqueados.has(i)
-            ? "🔒 Bloqueado"
-            : "🔓 Bloquear";
         });
 
-         articulo.addEventListener("click", async (event) => {
-        // Evitar copiar cuando se pulsa el botón de bloqueo
-        if (event.target.closest("button")) {
-            return;
-        }
+        articulo.addEventListener("click", async (event) => {
+            // Evitar copiar cuando se pulsa el botón de bloqueo
+            if (event.target.closest("button")) {
+                return;
+            }
 
-        let hex = color;
+            let hex = color;
 
-        // Si el color está en HSL, convertirlo a HEX
-        if (formato === "HSL") {
-            const valores = color.match(/[\d.]+/g).map(Number);
+            // Si el color está en HSL, convertirlo a HEX
+            if (formato === "HSL") {
+                const valores = color.match(/[\d.]+/g).map(Number);
 
-            hex = hslAHex(
-                valores[0],
-                valores[1],
-                valores[2]
-            );
-        }
+                hex = hslAHex(
+                    valores[0],
+                    valores[1],
+                    valores[2]
+                );
+            }
 
-        try {
-            await navigator.clipboard.writeText(hex);
+            try {
+                await navigator.clipboard.writeText(hex);
 
-            // Mostrar confirmación temporal
-            codeColor.textContent = `${hex} ¡Copiado!`;
+                // Mostrar confirmación temporal
+                codeColor.textContent = `${hex} ¡Copiado!`;
 
-            setTimeout(() => {
-                codeColor.textContent = color;
-            }, 1200);
+                setTimeout(() => {
+                    codeColor.textContent = color;
+                }, 1200);
 
-        } catch (error) {
-        console.error("No se pudo copiar el color:", error);
-        }
+            } catch (error) {
+        
+                console.error("No se pudo copiar el color:", error);
+            }
         });
 
         articulo.appendChild(divColor);
@@ -154,7 +161,7 @@ generarPaleta();
 btnGenerar.addEventListener("click", generarPaleta);
 
 // Al cambiar el select cantidad de colores, genera la cantidad seleccionada automaticamente
-//selectorCantidad.addEventListener("change", generarPaleta);
+selectorCantidad.addEventListener("change", generarPaleta);
 
 // Al cambiar el select de formato, genera la cantidad seleccionada en ese formato automaticamente
-//selectorFormato.addEventListener("change", generarPaleta);
+selectorFormato.addEventListener("change", generarPaleta);
