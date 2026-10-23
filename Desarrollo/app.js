@@ -2,6 +2,8 @@ const contenedor = document.getElementById("contenedorPaletas");
 const btnGenerar = document.getElementById("btnGenerar");
 const selectorCantidad = document.getElementById("cantidadColores");
 const selectorFormato = document.getElementById("formatoColores");
+const coloresBloqueados = new Map();
+
 
 
 //Funcion para generar colores en formato HSL
@@ -37,18 +39,26 @@ function generarPaleta() {
     const cantidadColores = Number(selectorCantidad.value);
     const formato = selectorFormato.value;
 
-    // Limpiar los articulos anteriores
     contenedor.innerHTML = "";
 
-    // Crear los articulos según la opción seleccionada
+    // Eliminar bloqueos que excedan la cantidad seleccionada
+    for (const indice of coloresBloqueados.keys()) {
+        if (indice >= cantidadColores) {
+            coloresBloqueados.delete(indice);
+        }
+    }
+
     for (let i = 0; i < cantidadColores; i++) {
         const articulo = document.createElement("article");
         const divColor = document.createElement("div");
         const codeColor = document.createElement("code");
+        const btnBloquear = document.createElement("button");
 
         let color;
 
-        if (formato === "HSL"){
+        if (coloresBloqueados.has(i)) {
+            color = coloresBloqueados.get(i);
+        } else if (formato === "HSL") {
             color = generarColorHSL();
         } else {
             color = generarColorHEX();
@@ -57,9 +67,26 @@ function generarPaleta() {
         divColor.style.backgroundColor = color;
         codeColor.textContent = color;
 
-        contenedor.appendChild(articulo);
+        btnBloquear.type = "button";
+        btnBloquear.textContent = coloresBloqueados.has(i)
+            ? "🔒 Bloqueado"
+            : "🔓 Bloquear";
+
+        btnBloquear.addEventListener("click", () => {
+            if (coloresBloqueados.has(i)) {
+                coloresBloqueados.delete(i);
+            } else {
+                coloresBloqueados.set(i, color);
+            }
+            btnBloquear.textContent = coloresBloqueados.has(i)
+            ? "🔒 Bloqueado"
+            : "🔓 Bloquear";
+        });
+
         articulo.appendChild(divColor);
         articulo.appendChild(codeColor);
+        articulo.appendChild(btnBloquear);
+        contenedor.appendChild(articulo);
     }
 }
 
@@ -70,7 +97,7 @@ generarPaleta();
 btnGenerar.addEventListener("click", generarPaleta);
 
 // Al cambiar el select cantidad de colores, genera la cantidad seleccionada automaticamente
-selectorCantidad.addEventListener("change", generarPaleta);
+//selectorCantidad.addEventListener("change", generarPaleta);
 
 // Al cambiar el select de formato, genera la cantidad seleccionada en ese formato automaticamente
-selectorFormato.addEventListener("change", generarPaleta);
+//selectorFormato.addEventListener("change", generarPaleta);
