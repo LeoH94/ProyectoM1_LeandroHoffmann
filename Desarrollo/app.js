@@ -75,6 +75,7 @@ function generarPaleta() {
         const articulo = document.createElement("article");
         const divColor = document.createElement("div");
         const codeColor = document.createElement("code");
+        const btnCopiar = document.createElement("button");
         const btnBloquear = document.createElement("button");
 
         let color;
@@ -90,6 +91,10 @@ function generarPaleta() {
         divColor.style.backgroundColor = color;
         codeColor.textContent = color;
 
+        btnCopiar.type = "button";
+        btnCopiar.textContent = "📋 Copiar";
+        btnCopiar.setAttribute("aria-label", `Copiar color ${color}`);
+
         btnBloquear.type = "button";
 
         btnBloquear.textContent = coloresBloqueados.has(i)
@@ -100,24 +105,27 @@ function generarPaleta() {
             ? "Color bloqueado"
             : "Bloquear este color";
 
+        btnBloquear.setAttribute(
+            "aria-label",
+            coloresBloqueados.has(i) ? `Desbloquear color ${color}` : `Bloquear color ${color}`
+        );
+
         btnBloquear.addEventListener("click", () => {
             if (coloresBloqueados.has(i)) {
                 coloresBloqueados.delete(i);
+                btnBloquear.setAttribute("aria-label", `Bloquear color ${color}`);
                 btnBloquear.textContent = "🔓 Bloquear";
                 btnBloquear.title = "Bloquear este color";
             } else {
                 coloresBloqueados.set(i, color);
+                btnBloquear.setAttribute("aria-label", `Desbloquear color ${color}`);
                 btnBloquear.textContent = "🔒 Bloqueado";
                 btnBloquear.title = "Color bloqueado";
             }
         });
 
-        articulo.addEventListener("click", async (event) => {
-            // Evitar copiar cuando se pulsa el botón de bloqueo
-            if (event.target.closest("button")) {
-                return;
-            }
-
+        btnCopiar.addEventListener("click", async () => {
+           
             let hex = color;
 
             // Si el color está en HSL, convertirlo a HEX
@@ -149,9 +157,9 @@ function generarPaleta() {
 
         articulo.appendChild(divColor);
         articulo.appendChild(codeColor);
+        articulo.appendChild(btnCopiar);
         articulo.appendChild(btnBloquear);
         contenedor.appendChild(articulo);
-
     }
 }
 
