@@ -1,0 +1,44 @@
+
+name: Publicar sitio web
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Pages
+        uses: actions/configure-pages@v5
+
+      - name: Preparar archivos
+        run: |
+          mkdir sitio
+          cp -r Desarrollo/. sitio/
+          touch sitio/.nojekyll
+
+      - name: Subir sitio
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: sitio/
+
+      - name: Publicar sitio
+        id: deployment
+        uses: actions/deploy-pages@v4
